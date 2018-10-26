@@ -1,12 +1,12 @@
-name: CrystalPoinrts
-main: com.caxerx.mc.crystalpoints.CrystalPoinrts
+name: CrystalPoints
+main: CrystalPoints
 version: 1.2
 api-version: 1.13
 loadbefore: [BossShop]
 commands:
  crystal:
   aliases: [crystals, points, cry, pt]
-  description: "CrystalPoinrts command"
+  description: "CrystalPoints command"
 permissions:
   crystalpoints.check:
     default: true
