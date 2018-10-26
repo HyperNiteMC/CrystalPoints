@@ -11,6 +11,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        new CacheUpdateRunnable(e.getPlayer()).runTaskAsynchronously(CrystalPoinrts.getInstance());
+        new CacheUpdateRunnable(e.getPlayer()).runTaskAsynchronously(CrystalPoints.getInstance());
     }
 }

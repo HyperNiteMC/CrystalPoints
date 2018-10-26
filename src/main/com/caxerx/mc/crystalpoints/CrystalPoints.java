@@ -56,7 +56,7 @@ public class CrystalPoints extends JavaPlugin {
 }
 
     public void reload() {
-        sqlManager.terminatePool();
+        //sqlManager.terminatePool();
         config = new CrystalPointsConfig(this);
         sqlManager = new MYSQLManager(config);
         sqlController = new MYSQLController(sqlManager, config);
@@ -70,7 +70,7 @@ public class CrystalPoints extends JavaPlugin {
     }
 
     public void onDisable() {
-        sqlManager.terminatePool();
+        //sqlManager.terminatePool();
         instance = null;
     }
 

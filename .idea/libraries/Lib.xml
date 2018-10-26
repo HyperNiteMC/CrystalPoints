@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BossShopPro.jar!/" />
+      <root url="jar://$PROJECT_DIR$/HNMC-Core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spigot-latest.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/spigot-latest.jar!/" />
+    </SOURCES>
+  </library>
+</component>

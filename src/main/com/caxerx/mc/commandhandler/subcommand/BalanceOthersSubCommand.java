@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by caxerx on 2017/4/1.
@@ -14,7 +15,9 @@ import java.util.List;
 public class BalanceOthersSubCommand implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
-        new BalanceMessageRunnable(sender, Bukkit.getOfflinePlayer(args[0])).runTaskAsynchronously(CrystalPoints.getInstance());
+        UUID uuid = Bukkit.getPlayerUniqueId(args[0]);
+        if (uuid == null) return;
+        new BalanceMessageRunnable(sender, Bukkit.getOfflinePlayer(uuid)).runTaskAsynchronously(CrystalPoints.getInstance());
     }
 
     @Override

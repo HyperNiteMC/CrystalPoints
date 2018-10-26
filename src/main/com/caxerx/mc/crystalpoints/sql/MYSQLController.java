@@ -1,5 +1,6 @@
 package main.com.caxerx.mc.crystalpoints.sql;
 
+import com.hypernite.mysql.SQLDataSourceManager;
 import main.com.caxerx.mc.crystalpoints.CrystalPoints;
 import main.com.caxerx.mc.crystalpoints.CrystalPointsConfig;
 import main.com.caxerx.mc.crystalpoints.UpdateResult;
@@ -48,7 +49,7 @@ public class MYSQLController {
     public double getBalance(OfflinePlayer player) {
         double result = defaultBalance;
         String uuid = player.getUniqueId().toString();
-        try (Connection connection = sql.getConnection();
+        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
              PreparedStatement statement = connection.prepareStatement(getBalanceStatement)) {
             statement.setString(1, uuid);
             ResultSet resultSet = statement.executeQuery();
@@ -66,7 +67,7 @@ public class MYSQLController {
 
     public boolean hasAccount(OfflinePlayer player) {
         String uuid = player.getUniqueId().toString();
-        try (Connection connection = sql.getConnection();
+        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
              PreparedStatement statement = connection.prepareStatement(getAccountStatement);) {
             statement.setString(1, uuid);
             ResultSet resultSet = statement.executeQuery();
@@ -79,7 +80,7 @@ public class MYSQLController {
 
     public void createAccount(OfflinePlayer player) {
         String uuid = player.getUniqueId().toString();
-        try (Connection connection = sql.getConnection();
+        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
              PreparedStatement statement = connection.prepareStatement(createAccountStatement)
         ) {
             statement.setString(1, uuid);
@@ -95,7 +96,7 @@ public class MYSQLController {
     public UpdateResult updatePlayer(OfflinePlayer player, double value, boolean set) {
         String uuid = player.getUniqueId().toString();
         UpdateResult result = UpdateResult.UNKNOWN;
-        try (Connection connection = sql.getConnection();
+        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
              PreparedStatement statement = connection.prepareStatement(getBalanceStatement);
              PreparedStatement statement2 = connection.prepareStatement(set ? setBalanceStatement : updateBalanceStatement)) {
             if (!set && value < 0) {

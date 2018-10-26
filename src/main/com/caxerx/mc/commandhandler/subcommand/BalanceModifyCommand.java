@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.UUID;
+
 /**
  * Created by caxerx on 2017/4/1.
  */
@@ -17,7 +19,9 @@ public class BalanceModifyCommand {
     public static void execute(TransitionalType type, CommandSender sender, String[] args) {
         try {
             String operator = sender.getName();
-            OfflinePlayer user = Bukkit.getOfflinePlayer(args[0]);
+            UUID uuid = Bukkit.getPlayerUniqueId(args[0]);
+            if (uuid == null) return;
+            OfflinePlayer user = Bukkit.getOfflinePlayer(uuid);
             double value = Double.parseDouble(args[1]);
             UpdateResult result;
             switch (type) {
