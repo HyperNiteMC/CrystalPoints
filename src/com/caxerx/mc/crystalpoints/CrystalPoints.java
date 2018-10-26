@@ -18,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Created by caxerx on 2016/6/27.
  */
 public class CrystalPoints extends JavaPlugin {
-    static BossShop bs;
+    public static BossShop bs;
     static CacheManager cacheManager;
     static CrystalPointsAPI api;
     static TransitionManager transitionManager;
@@ -51,8 +51,8 @@ public class CrystalPoints extends JavaPlugin {
         commandManager.registerCommand("reload", 0, new ReloadSubCommand());
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        new PointsHandler("CrystalPoints").register();
         setupEconomy();
+        new PointsHandler().register();
 }
 
     public void reload() {
@@ -75,7 +75,7 @@ public class CrystalPoints extends JavaPlugin {
     }
 
     private boolean setupEconomy() {
-        Plugin plugin = getServer().getPluginManager().getPlugin("BossShop");
+        Plugin plugin = getServer().getPluginManager().getPlugin("BossShopPro");
         if(plugin==null){ //Not installed?
             System.out.print("[BSP Hook] BossShopPro was not found...");
             return false;
