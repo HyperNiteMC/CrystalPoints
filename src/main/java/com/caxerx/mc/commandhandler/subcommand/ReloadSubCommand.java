@@ -1,8 +1,7 @@
 package com.caxerx.mc.commandhandler.subcommand;
 
 import com.caxerx.mc.commandhandler.SubCommand;
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.cache.TransitionalType;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 public class ReloadSubCommand implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
-        InterConomy.getInstance().reload();
+        CrystalPoinrts.getInstance().reload();
     }
 
     @Override
@@ -23,7 +22,7 @@ public class ReloadSubCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "interconomy.reload";
+        return "crystalpoints.reload";
     }
 
     @Override

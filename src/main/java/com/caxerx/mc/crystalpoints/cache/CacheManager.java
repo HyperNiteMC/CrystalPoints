@@ -1,31 +1,24 @@
-package com.caxerx.mc.interconomy.cache;
+package com.caxerx.mc.crystalpoints.cache;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.UpdateResult;
-import com.caxerx.mc.interconomy.runnable.CacheUpdateRunnable;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
+import com.caxerx.mc.crystalpoints.UpdateResult;
+import com.caxerx.mc.crystalpoints.runnable.CacheUpdateRunnable;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.caxerx.mc.interconomy.UpdateResult.BALANCE_INSUFFICIENT;
-import static com.caxerx.mc.interconomy.UpdateResult.DATA_CACHING;
-import static com.caxerx.mc.interconomy.UpdateResult.SUCCESS;
+import static com.caxerx.mc.crystalpoints.UpdateResult.*;
 
 /**
  * Created by caxerx on 2016/8/13.
  */
 public class CacheManager {
     private static CacheManager instance;
-    private InterConomy plugin;
-    private ConcurrentHashMap<OfflinePlayer, InterConomyUser> users;
+    private CrystalPoinrts plugin;
+    private ConcurrentHashMap<OfflinePlayer, CrystalPointsUser> users;
 
-    public CacheManager(InterConomy plugin) {
+    public CacheManager(CrystalPoinrts plugin) {
         instance = this;
         this.plugin = plugin;
         users = new ConcurrentHashMap<>();
@@ -35,11 +28,11 @@ public class CacheManager {
         return instance;
     }
 
-    public InterConomyUser getPlayer(OfflinePlayer player) throws DataCachingException {
+    public CrystalPointsUser getPlayer(OfflinePlayer player) throws DataCachingException {
         if (playerCached(player)) {
             return users.get(player);
         }
-        InterConomyUser user = new InterConomyUser(player);
+        CrystalPointsUser user = new CrystalPointsUser(player);
         users.put(player, user);
         new CacheUpdateRunnable(player).runTaskAsynchronously(plugin);
         throw new DataCachingException();
@@ -51,7 +44,7 @@ public class CacheManager {
 
 
     public UpdateResult withdrawPlayer(OfflinePlayer player, double value, String operator) {
-        InterConomyUser cacheUser = null;
+        CrystalPointsUser cacheUser = null;
         try {
             cacheUser = getPlayer(player);
         } catch (DataCachingException e) {
@@ -74,7 +67,7 @@ public class CacheManager {
 
 
     public UpdateResult depositPlayer(OfflinePlayer player, double value, String operator) {
-        InterConomyUser cacheUser = null;
+        CrystalPointsUser cacheUser = null;
         try {
             cacheUser = getPlayer(player);
         } catch (DataCachingException e) {
@@ -93,7 +86,7 @@ public class CacheManager {
 
 
     public UpdateResult setPlayer(OfflinePlayer player, double value, String operator) {
-        InterConomyUser cacheUser = null;
+        CrystalPointsUser cacheUser = null;
         try {
             cacheUser = getPlayer(player);
         } catch (DataCachingException e) {
@@ -114,7 +107,7 @@ public class CacheManager {
 
     public void removeOfflinePlayer() {
         users.keySet().forEach(user -> {
-            if (!user.isOnline() && System.currentTimeMillis() - users.get(user).getLastCacheUpdate() > InterConomyConfig.getInstance().updateTimeout) {
+            if (!user.isOnline() && System.currentTimeMillis() - users.get(user).getLastCacheUpdate() > CrystalPointsConfig.getInstance().updateTimeout) {
                 users.remove(user);
             }
         });

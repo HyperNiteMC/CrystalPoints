@@ -1,4 +1,4 @@
-package com.caxerx.mc.interconomy;
+package com.caxerx.mc.crystalpoints;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -6,7 +6,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.logging.Level;
 /**
  * Created by caxerx on 2016/6/27.
  */
-public class InterConomyConfig {
+public class CrystalPointsConfig {
     public final String mysqlHost;
     public final String mysqlDatabase;
     public final int mysqlPort;
@@ -48,9 +47,9 @@ public class InterConomyConfig {
     public FileConfiguration config;
     public FileConfiguration message;
 
-    private static InterConomyConfig instance;
+    private static CrystalPointsConfig instance;
 
-    public InterConomyConfig(Plugin plugin) {
+    public CrystalPointsConfig(Plugin plugin) {
         instance = this;
 
         File msgFile = new File(plugin.getDataFolder().getPath() + File.separator + "message.yml");
@@ -67,7 +66,7 @@ public class InterConomyConfig {
             }
             message.load(msgFile);
         } catch (IOException | InvalidConfigurationException e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getMessage(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getMessage(), e);
         }
         config = plugin.getConfig();
         config.options().copyDefaults(true);
@@ -102,7 +101,7 @@ public class InterConomyConfig {
     }
 
 
-    public static InterConomyConfig getInstance() {
+    public static CrystalPointsConfig getInstance() {
         return instance;
     }
 

@@ -1,14 +1,7 @@
 package com.caxerx.mc.commandhandler.subcommand;
 
 import com.caxerx.mc.commandhandler.SubCommand;
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.api.InterConomyAPI;
-import com.caxerx.mc.interconomy.cache.DataCachingException;
-import com.caxerx.mc.interconomy.cache.TransitionalType;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
+import com.caxerx.mc.crystalpoints.cache.TransitionalType;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -29,7 +22,7 @@ public class BalanceSetSubCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "interconomy.modify";
+        return "crystalpoints.modify";
     }
 
     @Override

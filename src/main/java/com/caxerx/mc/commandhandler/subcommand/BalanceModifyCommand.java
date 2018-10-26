@@ -1,10 +1,10 @@
 package com.caxerx.mc.commandhandler.subcommand;
 
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.UpdateResult;
-import com.caxerx.mc.interconomy.api.InterConomyAPI;
-import com.caxerx.mc.interconomy.cache.DataCachingException;
-import com.caxerx.mc.interconomy.cache.TransitionalType;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
+import com.caxerx.mc.crystalpoints.UpdateResult;
+import com.caxerx.mc.crystalpoints.api.CrystalPointsAPI;
+import com.caxerx.mc.crystalpoints.cache.DataCachingException;
+import com.caxerx.mc.crystalpoints.cache.TransitionalType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -22,28 +22,28 @@ public class BalanceModifyCommand {
             UpdateResult result;
             switch (type) {
                 case WITHDRAW:
-                    result = InterConomyAPI.getInstance().withdraw(user, value, operator);
+                    result = CrystalPointsAPI.getInstance().withdraw(user, value, operator);
                     break;
                 case SET:
-                    result = InterConomyAPI.getInstance().set(user, value, operator);
+                    result = CrystalPointsAPI.getInstance().set(user, value, operator);
                     break;
                 case DEPOSIT:
-                    result = InterConomyAPI.getInstance().deposit(user, value, operator);
+                    result = CrystalPointsAPI.getInstance().deposit(user, value, operator);
                     break;
                 default:
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageCommandArgsError));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageCommandArgsError));
                     return;
             }
             if (result == UpdateResult.SUCCESS) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageTransitionalSuccess));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageTransitionalSuccess));
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageTransitionalFailure));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageTransitionalFailure));
             }
 
         } catch (DataCachingException e) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageDataCaching));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageDataCaching));
         } catch (Exception e) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageCommandArgsError));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageCommandArgsError));
         }
     }
 }

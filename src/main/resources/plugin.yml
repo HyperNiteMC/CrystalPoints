@@ -1,21 +1,22 @@
-name: InterConomy
-main: com.caxerx.mc.interconomy.InterConomy
-version: 2.5.2
-depend: [Vault]
+name: CrystalPoinrts
+main: com.caxerx.mc.crystalpoints.CrystalPoinrts
+version: 1.2
+api-version: 1.13
+loadbefore: [BossShop]
 commands:
- money:
-  aliases: [balance, bal, gem, gems]
-  description: "InterConomy command"
+ crystal:
+  aliases: [crystals, points, cry, pt]
+  description: "CrystalPoinrts command"
 permissions:
-  interconomy.check:
+  crystalpoints.check:
     default: true
     description: Check their own balance.
-  interconomy.check.other:
-    default: OP
+  crystalpoints.check.other:
+    default: op
     description: Check others balance.
-  interconomy.modify:
-    default: OP
+  crystalpoints.modify:
+    default: op
     description: Modify balance of a player.
-  interconomy.reload:
-    default: OP
+  crystalpoints.reload:
+    default: op
     description: Reload plugin.

@@ -1,13 +1,13 @@
-default-balance: 1000
+default-balance: 0
 update-timeout: 30000
 mysql-config:
-    host: localhost
+    host: node3.hypernite.com
     port: 3306
-    username: root
-    password: ''
-    database: minecraft
-    userdata-table: interconomy_userdata
-    log-table: interconomy_log
+    username: test
+    password: k6YW85rZ0sgAVJWe
+    database: test_java
+    userdata-table: crystalpoints_userdata
+    log-table: crystalpoints_log
     ssl: false
 connection-pool:
     minimum-connections: 5

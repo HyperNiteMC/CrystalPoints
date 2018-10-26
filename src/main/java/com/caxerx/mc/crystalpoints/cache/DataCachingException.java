@@ -1,4 +1,4 @@
-package com.caxerx.mc.interconomy.cache;
+package com.caxerx.mc.crystalpoints.cache;
 
 /**
  * Created by caxerx on 2017/4/1.

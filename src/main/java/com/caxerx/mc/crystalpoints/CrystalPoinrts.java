@@ -1,43 +1,44 @@
-package com.caxerx.mc.interconomy;
+package com.caxerx.mc.crystalpoints;
 
-import com.caxerx.mc.commandhandler.*;
+import com.caxerx.mc.commandhandler.CommandHandler;
+import com.caxerx.mc.commandhandler.CommandManager;
+import com.caxerx.mc.commandhandler.TabCompletion;
 import com.caxerx.mc.commandhandler.subcommand.*;
-import com.caxerx.mc.interconomy.api.InterConomyAPI;
-import com.caxerx.mc.interconomy.api.VaultHandler;
-import com.caxerx.mc.interconomy.cache.CacheManager;
-import com.caxerx.mc.interconomy.cache.TransitionManager;
-import com.caxerx.mc.interconomy.sql.MYSQLController;
-import com.caxerx.mc.interconomy.sql.MYSQLManager;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.ServicePriority;
+import com.caxerx.mc.crystalpoints.api.CrystalPointsAPI;
+import com.caxerx.mc.crystalpoints.api.PointsHandler;
+import com.caxerx.mc.crystalpoints.cache.CacheManager;
+import com.caxerx.mc.crystalpoints.cache.TransitionManager;
+import com.caxerx.mc.crystalpoints.sql.MYSQLController;
+import com.caxerx.mc.crystalpoints.sql.MYSQLManager;
+import org.black_ixx.bossshop.BossShop;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by caxerx on 2016/6/27.
  */
-public class InterConomy extends JavaPlugin {
-    public static Economy econ = null;
+public class CrystalPoinrts extends JavaPlugin {
+    static BossShop bs;
     static CacheManager cacheManager;
-    static InterConomyAPI api;
+    static CrystalPointsAPI api;
     static TransitionManager transitionManager;
     static MYSQLManager sqlManager;
     static MYSQLController sqlController;
-    static InterConomyConfig config;
+    static CrystalPointsConfig config;
 
-    private static InterConomy instance;
+    private static CrystalPoinrts instance;
 
     public void onEnable() {
         instance = this;
-        config = new InterConomyConfig(this);
+        config = new CrystalPointsConfig(this);
         sqlManager = new MYSQLManager(config);
         sqlController = new MYSQLController(sqlManager, config);
         cacheManager = new CacheManager(this);
         transitionManager = new TransitionManager(this, config);
-        api = new InterConomyAPI(this, config, cacheManager);
+        api = new CrystalPointsAPI(this, config, cacheManager);
 
-        getServer().getPluginCommand("money").setExecutor(new CommandHandler());
-        getServer().getPluginCommand("money").setTabCompleter(new TabCompletion());
+        getServer().getPluginCommand("crystal").setExecutor(new CommandHandler());
+        getServer().getPluginCommand("crystal").setTabCompleter(new TabCompletion());
         CommandManager commandManager = new CommandManager();
         commandManager.registerCommand("info", 0, new BalanceInfoSubCommand());
         commandManager.registerCommand("balance", 0, new BalanceSelfSubCommand());
@@ -49,23 +50,22 @@ public class InterConomy extends JavaPlugin {
         commandManager.registerCommand("deposit", 2, new BalanceDepositSubCommand());
         commandManager.registerCommand("reload", 0, new ReloadSubCommand());
 
-        getServer().getServicesManager().register(Economy.class, new VaultHandler(this), this, ServicePriority.High);
-
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         setupEconomy();
-    }
+        new PointsHandler("CrystalPoints").register();
+}
 
     public void reload() {
         sqlManager.terminatePool();
-        config = new InterConomyConfig(this);
+        config = new CrystalPointsConfig(this);
         sqlManager = new MYSQLManager(config);
         sqlController = new MYSQLController(sqlManager, config);
         cacheManager = new CacheManager(this);
         transitionManager = new TransitionManager(this, config);
-        api = new InterConomyAPI(this, config, cacheManager);
+        api = new CrystalPointsAPI(this, config, cacheManager);
     }
 
-    public static InterConomy getInstance() {
+    public static CrystalPoinrts getInstance() {
         return instance;
     }
 
@@ -75,15 +75,14 @@ public class InterConomy extends JavaPlugin {
     }
 
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+        Plugin plugin = getServer().getPluginManager().getPlugin("BossShopPro");
+        if(plugin==null){ //Not installed?
+            System.out.print("[BSP Hook] BossShopPro was not found...");
             return false;
         }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
+
+        bs = (BossShop) plugin;
+        return true;
     }
 
 }

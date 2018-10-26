@@ -1,9 +1,8 @@
-package com.caxerx.mc.interconomy.sql;
+package com.caxerx.mc.crystalpoints.sql;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.UpdateResult;
-import com.sun.xml.internal.ws.util.CompletedFuture;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
+import com.caxerx.mc.crystalpoints.UpdateResult;
 import org.bukkit.OfflinePlayer;
 
 import java.sql.Connection;
@@ -12,13 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import static com.caxerx.mc.interconomy.UpdateResult.*;
+import static com.caxerx.mc.crystalpoints.UpdateResult.*;
 
 /**
  * Created by caxerx on 2016/6/28.
  */
 public class MYSQLController {
-    private InterConomyConfig config;
+    private CrystalPointsConfig config;
     private MYSQLManager sql;
 
     private final String getAccountStatement;
@@ -27,10 +26,10 @@ public class MYSQLController {
     private final String updateBalanceStatement;
     private final String setBalanceStatement;
     private final String logStatement;
-    private final double defaultBalance = InterConomyConfig.getInstance().defaultBalance;
+    private final double defaultBalance = CrystalPointsConfig.getInstance().defaultBalance;
     private static MYSQLController instance;
 
-    public MYSQLController(MYSQLManager sql, InterConomyConfig config) {
+    public MYSQLController(MYSQLManager sql, CrystalPointsConfig config) {
         this.sql = sql;
         this.config = config;
         String userdataTable = config.mysqlUserdataTable;
@@ -61,7 +60,7 @@ public class MYSQLController {
                 createAccount(player);
             }
         } catch (SQLException e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
         }
         return result;
     }
@@ -75,7 +74,7 @@ public class MYSQLController {
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
         }
         return false;
     }
@@ -90,7 +89,7 @@ public class MYSQLController {
             statement.setString(3, uuid);
             statement.execute();
         } catch (SQLException e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
         }
     }
 
@@ -117,7 +116,7 @@ public class MYSQLController {
                 result = SUCCESS;
             }
         } catch (SQLException e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
         }
         return result;
     }

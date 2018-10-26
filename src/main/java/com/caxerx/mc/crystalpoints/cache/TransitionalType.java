@@ -1,4 +1,4 @@
-package com.caxerx.mc.interconomy.cache;
+package com.caxerx.mc.crystalpoints.cache;
 
 public enum TransitionalType {
     WITHDRAW, DEPOSIT, SET

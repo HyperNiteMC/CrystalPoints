@@ -1,10 +1,9 @@
 package com.caxerx.mc.commandhandler.subcommand;
 
 import com.caxerx.mc.commandhandler.SubCommand;
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.runnable.BalanceMessageRunnable;
-import org.bukkit.Bukkit;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
+import com.caxerx.mc.crystalpoints.runnable.BalanceMessageRunnable;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,9 +17,9 @@ public class BalanceSelfSubCommand implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
-            new BalanceMessageRunnable(sender, (Player) sender).runTaskAsynchronously(InterConomy.getInstance());
+            new BalanceMessageRunnable(sender, (Player) sender).runTaskAsynchronously(CrystalPoinrts.getInstance());
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageCommandArgsError));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageCommandArgsError));
         }
 
     }
@@ -32,7 +31,7 @@ public class BalanceSelfSubCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "interconomy.check";
+        return "crystalpoints.check";
     }
 
     @Override

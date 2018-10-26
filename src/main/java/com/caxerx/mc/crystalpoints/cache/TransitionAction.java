@@ -1,8 +1,5 @@
-package com.caxerx.mc.interconomy.cache;
+package com.caxerx.mc.crystalpoints.cache;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.runnable.CacheUpdateRunnable;
-import com.caxerx.mc.interconomy.sql.MYSQLController;
 import org.bukkit.OfflinePlayer;
 
 /**

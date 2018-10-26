@@ -1,29 +1,29 @@
-package com.caxerx.mc.interconomy.api;
+package com.caxerx.mc.crystalpoints.api;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.UpdateResult;
-import com.caxerx.mc.interconomy.cache.CacheManager;
-import com.caxerx.mc.interconomy.cache.DataCachingException;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
+import com.caxerx.mc.crystalpoints.UpdateResult;
+import com.caxerx.mc.crystalpoints.cache.CacheManager;
+import com.caxerx.mc.crystalpoints.cache.DataCachingException;
 import org.bukkit.OfflinePlayer;
 
 /**
  * Created by caxerx on 2016/6/28.
  */
-public class InterConomyAPI {
-    private static InterConomyAPI instance;
-    private InterConomy plugin;
-    private InterConomyConfig config;
+public class CrystalPointsAPI {
+    private static CrystalPointsAPI instance;
+    private CrystalPoinrts plugin;
+    private CrystalPointsConfig config;
     private CacheManager cacheManager;
 
-    public InterConomyAPI(InterConomy plugin, InterConomyConfig config, CacheManager cacheManager) {
+    public CrystalPointsAPI(CrystalPoinrts plugin, CrystalPointsConfig config, CacheManager cacheManager) {
         this.plugin = plugin;
         this.config = config;
         this.cacheManager = cacheManager;
         instance = this;
     }
 
-    public static InterConomyAPI getInstance() {
+    public static CrystalPointsAPI getInstance() {
         return instance;
     }
 

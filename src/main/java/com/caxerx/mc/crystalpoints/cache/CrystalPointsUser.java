@@ -1,20 +1,18 @@
-package com.caxerx.mc.interconomy.cache;
+package com.caxerx.mc.crystalpoints.cache;
 
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.UpdateResult;
-import com.caxerx.mc.interconomy.sql.MYSQLController;
+import com.caxerx.mc.crystalpoints.UpdateResult;
 import org.bukkit.OfflinePlayer;
 
 /**
  * Created by caxerx on 2016/8/13.
  */
-public class InterConomyUser {
+public class CrystalPointsUser {
     private final OfflinePlayer player;
     private double cachedBalance = 0.0d;
     private long lastCacheUpdate = -1;
     private static CacheManager cacheManager = CacheManager.getInstance();
 
-    public InterConomyUser(OfflinePlayer player) {
+    public CrystalPointsUser(OfflinePlayer player) {
         this.player = player;
     }
 

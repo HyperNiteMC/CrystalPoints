@@ -1,7 +1,7 @@
 package com.caxerx.mc.commandhandler;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +17,7 @@ public class CommandHandler implements CommandExecutor {
     public void executeSubCommand(CommandSender sender, String subcommand, int arg, String[] args) throws CommandNotFoundException, CommandArgsErrorException, PermissionInsufficientException {
         SubCommand sub = CommandManager.getInstance().getSubCommand(subcommand, arg);
         if (sub.getPermission() == null || sender.hasPermission(sub.getPermission())) {
-            new CommandExecuteRunnable(sender, sub, args).runTaskAsynchronously(InterConomy.getInstance());
+            new CommandExecuteRunnable(sender, sub, args).runTaskAsynchronously(CrystalPoinrts.getInstance());
         } else {
             throw new PermissionInsufficientException();
         }
@@ -29,7 +29,7 @@ public class CommandHandler implements CommandExecutor {
             try {
                 executeSubCommand(commandSender, "balance", 0, null);
             } catch (Exception ignore) {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageCommandNotFound));
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageCommandNotFound));
             }
             return true;
         }
@@ -37,13 +37,13 @@ public class CommandHandler implements CommandExecutor {
         try {
             executeSubCommand(commandSender, sub, strings.length - 1, strings.length == 1 ? null : Arrays.copyOfRange(strings, 1, strings.length));
         } catch (CommandNotFoundException e) {
-            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageCommandNotFound));
+            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageCommandNotFound));
         } catch (CommandArgsErrorException e) {
-            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageCommandArgsError));
+            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageCommandArgsError));
         } catch (PermissionInsufficientException e) {
-            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', InterConomyConfig.getInstance().messageCommandPermissionInsufficient));
+            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CrystalPointsConfig.getInstance().messageCommandPermissionInsufficient));
         } catch (Exception e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getMessage(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getMessage(), e);
 
         }
         return true;

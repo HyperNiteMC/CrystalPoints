@@ -1,10 +1,9 @@
-package com.caxerx.mc.interconomy.runnable;
+package com.caxerx.mc.crystalpoints.runnable;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.cache.TransitionAction;
-import com.caxerx.mc.interconomy.cache.TransitionManager;
-import com.caxerx.mc.interconomy.cache.TransitionalType;
-import com.caxerx.mc.interconomy.sql.MYSQLController;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.cache.TransitionAction;
+import com.caxerx.mc.crystalpoints.cache.TransitionalType;
+import com.caxerx.mc.crystalpoints.sql.MYSQLController;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,7 +32,7 @@ public class TransitionRunnable extends BukkitRunnable {
             }
             MYSQLController.getInstance().updatePlayer(player, value, type == TransitionalType.SET);
             if (player.isOnline()) {
-                new CacheUpdateRunnable(player).runTaskAsynchronously(InterConomy.getInstance());
+                new CacheUpdateRunnable(player).runTaskAsynchronously(CrystalPoinrts.getInstance());
             }
             //sqlController.logTransition(player.getUniqueId().toString(), operator, "WITHDRAW", value, System.currentTimeMillis(), connection, true);
         }

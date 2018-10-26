@@ -1,6 +1,6 @@
-package com.caxerx.mc.interconomy;
+package com.caxerx.mc.crystalpoints;
 
-import com.caxerx.mc.interconomy.runnable.CacheUpdateRunnable;
+import com.caxerx.mc.crystalpoints.runnable.CacheUpdateRunnable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -11,6 +11,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        new CacheUpdateRunnable(e.getPlayer()).runTaskAsynchronously(InterConomy.getInstance());
+        new CacheUpdateRunnable(e.getPlayer()).runTaskAsynchronously(CrystalPoinrts.getInstance());
     }
 }

@@ -1,9 +1,9 @@
-package com.caxerx.mc.interconomy.runnable;
+package com.caxerx.mc.crystalpoints.runnable;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.cache.CacheManager;
-import com.caxerx.mc.interconomy.cache.DataCachingException;
-import com.caxerx.mc.interconomy.sql.MYSQLController;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.cache.CacheManager;
+import com.caxerx.mc.crystalpoints.cache.DataCachingException;
+import com.caxerx.mc.crystalpoints.sql.MYSQLController;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -14,7 +14,7 @@ public class CacheUpdateRunnable extends BukkitRunnable {
     OfflinePlayer player;
     CacheManager cacheManager = CacheManager.getInstance();
     MYSQLController sql = MYSQLController.getInstance();
-    InterConomy plugin = InterConomy.getInstance();
+    CrystalPoinrts plugin = CrystalPoinrts.getInstance();
 
     public CacheUpdateRunnable(OfflinePlayer player) {
         this.player = player;

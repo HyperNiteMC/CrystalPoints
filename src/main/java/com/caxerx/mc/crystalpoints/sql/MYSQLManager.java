@@ -1,7 +1,7 @@
-package com.caxerx.mc.interconomy.sql;
+package com.caxerx.mc.crystalpoints.sql;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -37,7 +37,7 @@ public class MYSQLManager {
         return instance;
     }
 
-    public MYSQLManager(InterConomyConfig config) {
+    public MYSQLManager(CrystalPointsConfig config) {
         host = config.mysqlHost;
         port = config.mysqlPort;
         username = config.mysqlUsername;
@@ -70,7 +70,7 @@ public class MYSQLManager {
             createLogTableStatement.execute();
             createUserdataTableStatement.execute();
         } catch (SQLException e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
         }
     }
 
@@ -78,7 +78,7 @@ public class MYSQLManager {
         try {
             return connectionSource.getConnection();
         } catch (SQLException e) {
-            InterConomy.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
+            CrystalPoinrts.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
         }
         return null;
     }

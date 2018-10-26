@@ -1,11 +1,9 @@
-package com.caxerx.mc.interconomy.cache;
+package com.caxerx.mc.crystalpoints.cache;
 
-import com.caxerx.mc.interconomy.InterConomy;
-import com.caxerx.mc.interconomy.InterConomyConfig;
-import com.caxerx.mc.interconomy.runnable.TransitionRunnable;
+import com.caxerx.mc.crystalpoints.CrystalPoinrts;
+import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
+import com.caxerx.mc.crystalpoints.runnable.TransitionRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -14,10 +12,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class TransitionManager {
     private ConcurrentLinkedQueue<TransitionAction> transitional;
     private static TransitionManager instance;
-    private InterConomyConfig config;
-    private InterConomy plugin;
+    private CrystalPointsConfig config;
+    private CrystalPoinrts plugin;
 
-    public TransitionManager(InterConomy plugin, InterConomyConfig config) {
+    public TransitionManager(CrystalPoinrts plugin, CrystalPointsConfig config) {
         instance = this;
         this.config = config;
         this.plugin = plugin;
