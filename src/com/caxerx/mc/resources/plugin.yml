@@ -1,0 +1,24 @@
+name: CrystalPoints
+main: com.caxerx.mc.crystalpoints.CrystalPoints
+version: 1.2
+api-version: 1.13
+loadbefore: [BossShop]
+depend: [HyperNiteMC-Core]
+soft-depend: [BossShop]
+commands:
+ crystal:
+  aliases: [crystals, points, point]
+  description: "CrystalPoints command"
+permissions:
+  crystalpoints.check:
+    default: true
+    description: Check their own balance.
+  crystalpoints.check.other:
+    default: op
+    description: Check others balance.
+  crystalpoints.modify:
+    default: op
+    description: Modify balance of a player.
+  crystalpoints.reload:
+    default: op
+    description: Reload plugin.

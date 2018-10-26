@@ -3,9 +3,9 @@
     <output-path>$PROJECT_DIR$/../../../Studio Production/2017-2018/fast test server/plugins</output-path>
     <root id="archive" name="CrystalPoints.jar">
       <element id="module-output" name="CrystalPoints" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/config.yml" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/message.yml" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/caxerx/mc/resources/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/caxerx/mc/resources/message.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/caxerx/mc/resources/plugin.yml" />
     </root>
   </artifact>
 </component>
