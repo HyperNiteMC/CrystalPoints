@@ -16,22 +16,22 @@ import java.util.logging.Level;
  * Created by caxerx on 2016/6/27.
  */
 public class CrystalPointsConfig {
-    public final String mysqlHost;
+    /*public final String mysqlHost;
     public final String mysqlDatabase;
-    public final int mysqlPort;
+    public final int mysqlPort;*/
     public final String mysqlLogTable;
-    public final String mysqlUsername;
-    public final String mysqlPassword;
+    /*public final String mysqlUsername;
+    public final String mysqlPassword;*/
     public final String mysqlUserdataTable;
 
-    public final int connectionPoolMaxConnections;
+    /*public final int connectionPoolMaxConnections;
     public final int connectionPoolMinConnections;
-    public final long connectionPoolTimeout;
+    public final long connectionPoolTimeout;*/
 
     public final double defaultBalance;
     public final double updateTimeout;
 
-    public final boolean mysqlSslEnable;
+    //public final boolean mysqlSslEnable;
 
     public final String messagePrefix;
     public final String messageBalance;
@@ -73,17 +73,17 @@ public class CrystalPointsConfig {
         plugin.saveConfig();
         message.setDefaults(defaultmsg);
 
-        mysqlHost = config.getString("mysql-config.host");
+        /*mysqlHost = config.getString("mysql-config.host");
         mysqlPort = config.getInt("mysql-config.port");
         mysqlUsername = config.getString("mysql-config.username");
         mysqlPassword = config.getString("mysql-config.password");
-        mysqlDatabase = config.getString("mysql-config.database");
+        mysqlDatabase = config.getString("mysql-config.database");*/
         mysqlUserdataTable = config.getString("mysql-config.userdata-table");
         mysqlLogTable = config.getString("mysql-config.log-table");
-        mysqlSslEnable = config.getBoolean("mysql-config.ssl");
+        /*mysqlSslEnable = config.getBoolean("mysql-config.ssl");
         connectionPoolMaxConnections = config.getInt("connection-pool.minimum-connections");
         connectionPoolMinConnections = config.getInt("connection-pool.maximum-connections");
-        connectionPoolTimeout = config.getLong("connection-pool.timeout-millis");
+        connectionPoolTimeout = config.getLong("connection-pool.timeout-millis");*/
 
         defaultBalance = config.getDouble("default-balance");
         updateTimeout = config.getDouble("update-timeout");

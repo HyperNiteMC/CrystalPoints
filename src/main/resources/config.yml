@@ -1,15 +1,5 @@
 default-balance: 0
 update-timeout: 30000
 mysql-config:
-    host: node3.hypernite.com
-    port: 3306
-    username: test
-    password: k6YW85rZ0sgAVJWe
-    database: test_java
     userdata-table: crystalpoints_userdata
     log-table: crystalpoints_log
-    ssl: false
-connection-pool:
-    minimum-connections: 5
-    maximum-connections: 20
-    timeout-millis: 5000
