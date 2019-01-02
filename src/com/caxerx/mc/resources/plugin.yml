@@ -2,9 +2,8 @@ name: CrystalPoints
 main: com.caxerx.mc.crystalpoints.CrystalPoints
 version: 1.2
 api-version: 1.13
-loadbefore: [BossShop]
-depend: [HyperNiteMC-Core]
-soft-depend: [BossShop]
+loadbefore: [BossShopPro]
+depend: [HyperNiteMC-Core, BossShopPro]
 commands:
  crystal:
   aliases: [crystals, points, point]

@@ -1,8 +1,6 @@
 package com.caxerx.mc.crystalpoints.api;
 
 import com.caxerx.mc.crystalpoints.cache.DataCachingException;
-import org.black_ixx.bossshop.BossShop;
-import org.black_ixx.bossshop.managers.ClassManager;
 import org.black_ixx.bossshop.pointsystem.BSPointsPlugin;
 import org.bukkit.OfflinePlayer;
 
@@ -11,11 +9,9 @@ import org.bukkit.OfflinePlayer;
  */
 public class PointsHandler extends BSPointsPlugin {
     private CrystalPointsAPI api;
-    private BossShop plugin;
 
     public PointsHandler() {
-        super("CrystalPoints");
-        plugin = ClassManager.manager.getPlugin();
+        super("CrystalPoints", "Crystals");
         api = CrystalPointsAPI.getInstance();
     }
 
@@ -36,27 +32,29 @@ public class PointsHandler extends BSPointsPlugin {
         } catch (DataCachingException e) {
             e.printStackTrace();
         }
-        return 0;
+        return v;
     }
 
     @Override
     public double takePoints(OfflinePlayer offlinePlayer, double v) {
         try {
             api.withdraw(offlinePlayer,v,"console");
+            return api.getBalance(offlinePlayer);
         } catch (DataCachingException e) {
             e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     @Override
     public double givePoints(OfflinePlayer offlinePlayer, double v) {
         try {
             api.deposit(offlinePlayer,v,"console");
+            return api.getBalance(offlinePlayer);
         } catch (DataCachingException e) {
             e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     @Override

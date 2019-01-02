@@ -10,15 +10,13 @@ import com.caxerx.mc.crystalpoints.cache.CacheManager;
 import com.caxerx.mc.crystalpoints.cache.TransitionManager;
 import com.caxerx.mc.crystalpoints.sql.MYSQLController;
 import com.caxerx.mc.crystalpoints.sql.MYSQLManager;
-import org.black_ixx.bossshop.BossShop;
-import org.bukkit.plugin.Plugin;
+import org.black_ixx.bossshop.pointsystem.BSPointsAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by caxerx on 2016/6/27.
  */
 public class CrystalPoints extends JavaPlugin {
-    public static BossShop bs;
     static CacheManager cacheManager;
     static CrystalPointsAPI api;
     static TransitionManager transitionManager;
@@ -30,13 +28,7 @@ public class CrystalPoints extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-        config = new CrystalPointsConfig(this);
-        sqlManager = new MYSQLManager(config);
-        sqlController = new MYSQLController(sqlManager, config);
-        cacheManager = new CacheManager(this);
-        transitionManager = new TransitionManager(this, config);
-        api = new CrystalPointsAPI(this, config, cacheManager);
-
+        reload();
         getServer().getPluginCommand("crystal").setExecutor(new CommandHandler());
         getServer().getPluginCommand("crystal").setTabCompleter(new TabCompletion());
         CommandManager commandManager = new CommandManager();
@@ -51,8 +43,11 @@ public class CrystalPoints extends JavaPlugin {
         commandManager.registerCommand("reload", 0, new ReloadSubCommand());
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        setupEconomy();
-        new PointsHandler().register();
+        PointsHandler pointsHandler = new PointsHandler();
+        pointsHandler.register();
+        this.getLogger().info("Hooking into BossShopPro is now :"+pointsHandler.isAvailable());
+        this.getLogger().info(BSPointsAPI.getFirstAvailable()+"");
+        this.getLogger().info((BSPointsAPI.get("CrystalPoints") != null)+"");
 }
 
     public void reload() {
@@ -72,17 +67,6 @@ public class CrystalPoints extends JavaPlugin {
     public void onDisable() {
         //sqlManager.terminatePool();
         instance = null;
-    }
-
-    private boolean setupEconomy() {
-        Plugin plugin = getServer().getPluginManager().getPlugin("BossShopPro");
-        if(plugin==null){ //Not installed?
-            System.out.print("[BSP Hook] BossShopPro was not found...");
-            return false;
-        }
-
-        bs = (BossShop) plugin;
-        return true;
     }
 
 }
