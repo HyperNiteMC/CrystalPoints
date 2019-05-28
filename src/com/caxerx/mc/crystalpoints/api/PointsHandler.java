@@ -22,7 +22,7 @@ public class PointsHandler extends BSPointsPlugin {
         } catch (DataCachingException e) {
             e.printStackTrace();
         }
-        return 0;
+        return 100;
     }
 
     @Override
@@ -59,6 +59,6 @@ public class PointsHandler extends BSPointsPlugin {
 
     @Override
     public boolean usesDoubleValues() {
-        return false;
+        return true;
     }
 }

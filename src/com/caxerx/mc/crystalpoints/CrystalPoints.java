@@ -10,8 +10,12 @@ import com.caxerx.mc.crystalpoints.cache.CacheManager;
 import com.caxerx.mc.crystalpoints.cache.TransitionManager;
 import com.caxerx.mc.crystalpoints.sql.MYSQLController;
 import com.caxerx.mc.crystalpoints.sql.MYSQLManager;
-import org.black_ixx.bossshop.pointsystem.BSPointsAPI;
+import org.black_ixx.bossshop.managers.ClassManager;
+import org.black_ixx.bossshop.managers.features.PointsManager;
+import org.black_ixx.bossshop.pointsystem.BSPointsPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by caxerx on 2016/6/27.
@@ -43,12 +47,50 @@ public class CrystalPoints extends JavaPlugin {
         commandManager.registerCommand("reload", 0, new ReloadSubCommand());
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        PointsHandler pointsHandler = new PointsHandler();
-        pointsHandler.register();
-        this.getLogger().info("Hooking into BossShopPro is now :"+pointsHandler.isAvailable());
-        this.getLogger().info(BSPointsAPI.getFirstAvailable()+"");
-        this.getLogger().info((BSPointsAPI.get("CrystalPoints") != null)+"");
-}
+        BSPointsPlugin bsPointsPlugin = new PointsHandler();
+        bsPointsPlugin.register();
+        ClassManager.manager.getSettings().setPointsEnabled(true);
+        PointsManager.PointsPlugin plugin = PointsManager.PointsPlugin.CUSTOM;
+        plugin.setCustom(bsPointsPlugin.getName());
+        ClassManager.manager.getSettings().setPointsPlugin(plugin);
+
+
+        /* Reflection bye bye
+        try {
+            registerPointsReflect(bsPointsPlugin);
+            //checkPointsPlugin();
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+         */
+    }
+
+    private void registerPointsReflect(BSPointsPlugin bsPointsPlugin) throws IllegalAccessException, NoSuchFieldException {
+        ClassManager classManager = ClassManager.manager;
+        PointsManager pointsManager = new PointsManager();
+        Field pa = pointsManager.getClass().getDeclaredField("pa");
+        pa.setAccessible(true);
+        pa.set(pointsManager,bsPointsPlugin);
+        Field field = classManager.getClass().getDeclaredField("pointsmanager");
+        field.setAccessible(true);
+        field.set(classManager,pointsManager);
+    }
+
+    private void checkPointsPlugin() throws IllegalAccessException {
+        System.out.println();
+        PointsManager pointsManager = ClassManager.manager.getPointsManager();
+        if (pointsManager == null) {
+            System.out.println("point manager is null");
+            return;
+        }
+        for (Field field : pointsManager.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            System.out.println("field: "+field.getName());
+            System.out.println("value: "+field.get(pointsManager).getClass().getName());
+        }
+    }
+
 
     public void reload() {
         //sqlManager.terminatePool();

@@ -2,7 +2,7 @@ package com.caxerx.mc.crystalpoints.sql;
 
 import com.caxerx.mc.crystalpoints.CrystalPoints;
 import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
-import com.hypernite.mysql.SQLDataSourceManager;
+import com.hypernite.mc.hnmc.core.main.HyperNiteMC;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,7 +64,7 @@ public class MYSQLManager {
         sqlConfig.setConnectionTestQuery("CREATE TABLE IF NOT EXISTS `" + userdataTable + "` ( `uuid` TEXT NOT NULL , `money` DOUBLE NOT NULL DEFAULT '0' , PRIMARY KEY (`uuid`(36)));");
         sqlConfig.addDataSourceProperty("autoReconnect", true);
         connection = new HikariDataSource(sqlConfig);*/
-        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection()){
+        try (Connection connection = HyperNiteMC.getAPI().getSQLDataSource().getConnection()){
             PreparedStatement createLogTableStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `" + logTable + "` ( `uuid` TEXT NOT NULL , `operator` TEXT NOT NULL , `action` TEXT NOT NULL , `value` DOUBLE NOT NULL , `time` BIGINT NOT NULL )");
             PreparedStatement createUserdataTableStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `" + userdataTable + "` ( `uuid` TEXT NOT NULL , `money` DOUBLE NOT NULL DEFAULT '0' , PRIMARY KEY (`uuid`(36)));");
             createLogTableStatement.execute();

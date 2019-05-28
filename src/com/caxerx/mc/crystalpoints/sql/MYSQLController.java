@@ -3,7 +3,8 @@ package com.caxerx.mc.crystalpoints.sql;
 import com.caxerx.mc.crystalpoints.CrystalPoints;
 import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
 import com.caxerx.mc.crystalpoints.UpdateResult;
-import com.hypernite.mysql.SQLDataSourceManager;
+import com.hypernite.mc.hnmc.core.main.HyperNiteMC;
+import com.hypernite.mc.hnmc.core.managers.SQLDataSource;
 import org.bukkit.OfflinePlayer;
 
 import java.sql.Connection;
@@ -17,20 +18,20 @@ import java.util.logging.Level;
  */
 public class MYSQLController {
     private CrystalPointsConfig config;
-    private MYSQLManager sql;
 
     private final String getAccountStatement;
     private final String getBalanceStatement;
     private final String createAccountStatement;
     private final String updateBalanceStatement;
     private final String setBalanceStatement;
-    private final String logStatement;
+    //private final String logStatement;
     private final double defaultBalance = CrystalPointsConfig.getInstance().defaultBalance;
     private static MYSQLController instance;
+    private final SQLDataSource sqlDataSource;
 
     public MYSQLController(MYSQLManager sql, CrystalPointsConfig config) {
-        this.sql = sql;
         this.config = config;
+        this.sqlDataSource = HyperNiteMC.getAPI().getSQLDataSource();
         String userdataTable = config.mysqlUserdataTable;
         String logTable = config.mysqlLogTable;
         getAccountStatement = "SELECT * FROM `" + userdataTable + "` WHERE `uuid`=?";
@@ -38,7 +39,7 @@ public class MYSQLController {
         createAccountStatement = "INSERT INTO `" + userdataTable + "` (`uuid`,`money`) SELECT ? , ? WHERE NOT EXISTS (SELECT * FROM `" + userdataTable + "` WHERE uuid = ?)";
         updateBalanceStatement = "INSERT INTO " + userdataTable + " (`uuid`,`money`) VALUES(?,?) ON DUPLICATE KEY UPDATE money = money + ?";
         setBalanceStatement = "INSERT INTO " + userdataTable + " (`uuid`,`money`) VALUES(?,?) ON DUPLICATE KEY UPDATE money = ?";
-        logStatement = "INSERT INTO `" + logTable + "`(`uuid`, `operator`, `action`, `value`,`time`) VALUES (?,?,?,?,?)";
+        //logStatement = "INSERT INTO `" + logTable + "`(`uuid`, `operator`, `action`, `value`,`time`) VALUES (?,?,?,?,?)";
         instance = this;
     }
 
@@ -49,7 +50,7 @@ public class MYSQLController {
     public double getBalance(OfflinePlayer player) {
         double result = defaultBalance;
         String uuid = player.getUniqueId().toString();
-        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
+        try (Connection connection = sqlDataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(getBalanceStatement)) {
             statement.setString(1, uuid);
             ResultSet resultSet = statement.executeQuery();
@@ -67,8 +68,8 @@ public class MYSQLController {
 
     public boolean hasAccount(OfflinePlayer player) {
         String uuid = player.getUniqueId().toString();
-        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
-             PreparedStatement statement = connection.prepareStatement(getAccountStatement);) {
+        try (Connection connection = sqlDataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(getAccountStatement)) {
             statement.setString(1, uuid);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
@@ -80,7 +81,7 @@ public class MYSQLController {
 
     public void createAccount(OfflinePlayer player) {
         String uuid = player.getUniqueId().toString();
-        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
+        try (Connection connection = sqlDataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(createAccountStatement)
         ) {
             statement.setString(1, uuid);
@@ -96,7 +97,7 @@ public class MYSQLController {
     public UpdateResult updatePlayer(OfflinePlayer player, double value, boolean set) {
         String uuid = player.getUniqueId().toString();
         UpdateResult result = UpdateResult.UNKNOWN;
-        try (Connection connection = SQLDataSourceManager.getInstance().getFuckingConnection();
+        try (Connection connection = sqlDataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(getBalanceStatement);
              PreparedStatement statement2 = connection.prepareStatement(set ? setBalanceStatement : updateBalanceStatement)) {
             if (!set && value < 0) {
