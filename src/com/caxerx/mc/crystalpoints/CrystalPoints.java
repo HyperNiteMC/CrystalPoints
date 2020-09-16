@@ -1,13 +1,14 @@
 package com.caxerx.mc.crystalpoints;
 
-import com.caxerx.mc.commandhandler.CommandHandler;
-import com.caxerx.mc.commandhandler.CommandManager;
-import com.caxerx.mc.commandhandler.TabCompletion;
-import com.caxerx.mc.commandhandler.subcommand.*;
 import com.caxerx.mc.crystalpoints.api.CrystalPointsAPI;
+import com.caxerx.mc.crystalpoints.api.PointPlaceholder;
 import com.caxerx.mc.crystalpoints.api.PointsHandler;
 import com.caxerx.mc.crystalpoints.cache.CacheManager;
 import com.caxerx.mc.crystalpoints.cache.TransitionManager;
+import com.caxerx.mc.crystalpoints.commandhandler.CommandHandler;
+import com.caxerx.mc.crystalpoints.commandhandler.CommandManager;
+import com.caxerx.mc.crystalpoints.commandhandler.TabCompletion;
+import com.caxerx.mc.crystalpoints.commandhandler.subcommand.*;
 import com.caxerx.mc.crystalpoints.sql.MYSQLController;
 import com.caxerx.mc.crystalpoints.sql.MYSQLManager;
 import org.black_ixx.bossshop.managers.ClassManager;
@@ -16,6 +17,7 @@ import org.black_ixx.bossshop.pointsystem.BSPointsPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 /**
  * Created by caxerx on 2016/6/27.
@@ -30,11 +32,20 @@ public class CrystalPoints extends JavaPlugin {
 
     private static CrystalPoints instance;
 
+    public static CrystalPoints getInstance() {
+        return instance;
+    }
+
     public void onEnable() {
         instance = this;
-        reload();
-        getServer().getPluginCommand("crystal").setExecutor(new CommandHandler());
-        getServer().getPluginCommand("crystal").setTabCompleter(new TabCompletion());
+        config = new CrystalPointsConfig(this);
+        sqlManager = new MYSQLManager(config);
+        sqlController = new MYSQLController(config);
+        cacheManager = new CacheManager(this);
+        transitionManager = new TransitionManager(this, config);
+        api = new CrystalPointsAPI(cacheManager);
+        Optional.ofNullable(getServer().getPluginCommand("crystal")).ifPresent(c -> c.setExecutor(new CommandHandler()));
+        Optional.ofNullable(getServer().getPluginCommand("crystal")).ifPresent(c -> c.setTabCompleter(new TabCompletion()));
         CommandManager commandManager = new CommandManager();
         commandManager.registerCommand("info", 0, new BalanceInfoSubCommand());
         commandManager.registerCommand("balance", 0, new BalanceSelfSubCommand());
@@ -44,7 +55,6 @@ public class CrystalPoints extends JavaPlugin {
         commandManager.registerCommand("withdraw", 2, new BalanceWithdrawSubCommand());
         commandManager.registerCommand("add", 2, new BalanceDepositSubCommand());
         commandManager.registerCommand("deposit", 2, new BalanceDepositSubCommand());
-        commandManager.registerCommand("reload", 0, new ReloadSubCommand());
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         BSPointsPlugin bsPointsPlugin = new PointsHandler();
@@ -53,6 +63,11 @@ public class CrystalPoints extends JavaPlugin {
         PointsManager.PointsPlugin plugin = PointsManager.PointsPlugin.CUSTOM;
         plugin.setCustom(bsPointsPlugin.getName());
         ClassManager.manager.getSettings().setPointsPlugin(plugin);
+
+        if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            this.getLogger().info("Find PlaceholderAPI.");
+            new PointPlaceholder(this).register();
+        }
 
 
         /* Reflection bye bye
@@ -71,10 +86,10 @@ public class CrystalPoints extends JavaPlugin {
         PointsManager pointsManager = new PointsManager();
         Field pa = pointsManager.getClass().getDeclaredField("pa");
         pa.setAccessible(true);
-        pa.set(pointsManager,bsPointsPlugin);
+        pa.set(pointsManager, bsPointsPlugin);
         Field field = classManager.getClass().getDeclaredField("pointsmanager");
         field.setAccessible(true);
-        field.set(classManager,pointsManager);
+        field.set(classManager, pointsManager);
     }
 
     private void checkPointsPlugin() throws IllegalAccessException {
@@ -86,24 +101,9 @@ public class CrystalPoints extends JavaPlugin {
         }
         for (Field field : pointsManager.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            System.out.println("field: "+field.getName());
-            System.out.println("value: "+field.get(pointsManager).getClass().getName());
+            System.out.println("field: " + field.getName());
+            System.out.println("value: " + field.get(pointsManager).getClass().getName());
         }
-    }
-
-
-    public void reload() {
-        //sqlManager.terminatePool();
-        config = new CrystalPointsConfig(this);
-        sqlManager = new MYSQLManager(config);
-        sqlController = new MYSQLController(sqlManager, config);
-        cacheManager = new CacheManager(this);
-        transitionManager = new TransitionManager(this, config);
-        api = new CrystalPointsAPI(this, config, cacheManager);
-    }
-
-    public static CrystalPoints getInstance() {
-        return instance;
     }
 
     public void onDisable() {

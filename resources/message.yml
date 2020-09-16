@@ -1,4 +1,4 @@
-prefix: "&b水晶// "
+prefix: "&b水晶// &7"
 balance-message: "&7{player} 目前有 &2{money} &bCrystalss"
 balance-insufficient-message: "&c餘額不足"
 transitional-failure-message: "&c餘額改變失敗"

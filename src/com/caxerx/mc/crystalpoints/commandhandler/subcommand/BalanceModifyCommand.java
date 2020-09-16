@@ -1,4 +1,4 @@
-package com.caxerx.mc.commandhandler.subcommand;
+package com.caxerx.mc.crystalpoints.commandhandler.subcommand;
 
 import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
 import com.caxerx.mc.crystalpoints.UpdateResult;

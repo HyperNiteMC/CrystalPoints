@@ -15,8 +15,8 @@ import static com.caxerx.mc.crystalpoints.UpdateResult.*;
  */
 public class CacheManager {
     private static CacheManager instance;
-    private CrystalPoints plugin;
-    private ConcurrentHashMap<OfflinePlayer, CrystalPointsUser> users;
+    private final CrystalPoints plugin;
+    private final ConcurrentHashMap<OfflinePlayer, CrystalPointsUser> users;
 
     public CacheManager(CrystalPoints plugin) {
         instance = this;
@@ -104,12 +104,10 @@ public class CacheManager {
     }
 
 
-
     public void removeOfflinePlayer() {
-        users.keySet().forEach(user -> {
-            if (!user.isOnline() && System.currentTimeMillis() - users.get(user).getLastCacheUpdate() > CrystalPointsConfig.getInstance().updateTimeout) {
-                users.remove(user);
-            }
+        users.keySet().removeIf(user->{
+            if (users.get(user) == null) return false;
+            return !user.isOnline() && System.currentTimeMillis() - users.get(user).getLastCacheUpdate() > CrystalPointsConfig.getInstance().updateTimeout;
         });
     }
 }

@@ -1,7 +1,5 @@
 package com.caxerx.mc.crystalpoints.api;
 
-import com.caxerx.mc.crystalpoints.CrystalPoints;
-import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
 import com.caxerx.mc.crystalpoints.UpdateResult;
 import com.caxerx.mc.crystalpoints.cache.CacheManager;
 import com.caxerx.mc.crystalpoints.cache.DataCachingException;
@@ -12,13 +10,9 @@ import org.bukkit.OfflinePlayer;
  */
 public class CrystalPointsAPI {
     private static CrystalPointsAPI instance;
-    private CrystalPoints plugin;
-    private CrystalPointsConfig config;
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
-    public CrystalPointsAPI(CrystalPoints plugin, CrystalPointsConfig config, CacheManager cacheManager) {
-        this.plugin = plugin;
-        this.config = config;
+    public CrystalPointsAPI(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
         instance = this;
     }

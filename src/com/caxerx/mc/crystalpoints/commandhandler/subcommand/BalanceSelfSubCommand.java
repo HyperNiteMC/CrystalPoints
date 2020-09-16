@@ -1,8 +1,8 @@
-package com.caxerx.mc.commandhandler.subcommand;
+package com.caxerx.mc.crystalpoints.commandhandler.subcommand;
 
-import com.caxerx.mc.commandhandler.SubCommand;
 import com.caxerx.mc.crystalpoints.CrystalPoints;
 import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
+import com.caxerx.mc.crystalpoints.commandhandler.SubCommand;
 import com.caxerx.mc.crystalpoints.runnable.BalanceMessageRunnable;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

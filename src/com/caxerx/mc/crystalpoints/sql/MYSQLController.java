@@ -17,8 +17,7 @@ import java.util.logging.Level;
  * Created by caxerx on 2016/6/28.
  */
 public class MYSQLController {
-    private CrystalPointsConfig config;
-
+    private static MYSQLController instance;
     private final String getAccountStatement;
     private final String getBalanceStatement;
     private final String createAccountStatement;
@@ -26,19 +25,18 @@ public class MYSQLController {
     private final String setBalanceStatement;
     //private final String logStatement;
     private final double defaultBalance = CrystalPointsConfig.getInstance().defaultBalance;
-    private static MYSQLController instance;
     private final SQLDataSource sqlDataSource;
+    private final CrystalPointsConfig config;
 
-    public MYSQLController(MYSQLManager sql, CrystalPointsConfig config) {
+    public MYSQLController(CrystalPointsConfig config) {
         this.config = config;
         this.sqlDataSource = HyperNiteMC.getAPI().getSQLDataSource();
         String userdataTable = config.mysqlUserdataTable;
-        String logTable = config.mysqlLogTable;
         getAccountStatement = "SELECT * FROM `" + userdataTable + "` WHERE `uuid`=?";
         getBalanceStatement = "SELECT `money` FROM `" + userdataTable + "` WHERE `uuid` = ?";
-        createAccountStatement = "INSERT INTO `" + userdataTable + "` (`uuid`,`money`) SELECT ? , ? WHERE NOT EXISTS (SELECT * FROM `" + userdataTable + "` WHERE uuid = ?)";
-        updateBalanceStatement = "INSERT INTO " + userdataTable + " (`uuid`,`money`) VALUES(?,?) ON DUPLICATE KEY UPDATE money = money + ?";
-        setBalanceStatement = "INSERT INTO " + userdataTable + " (`uuid`,`money`) VALUES(?,?) ON DUPLICATE KEY UPDATE money = ?";
+        createAccountStatement = "INSERT IGNORE INTO `" + userdataTable + "` VALUES (?,?,?)";
+        updateBalanceStatement = "INSERT INTO " + userdataTable + " VALUES(?,?,?) ON DUPLICATE KEY UPDATE name = ?, money = money + ?";
+        setBalanceStatement = "INSERT INTO " + userdataTable + " VALUES(?,?,?) ON DUPLICATE KEY UPDATE name = ?, money = ?";
         //logStatement = "INSERT INTO `" + logTable + "`(`uuid`, `operator`, `action`, `value`,`time`) VALUES (?,?,?,?,?)";
         instance = this;
     }
@@ -85,8 +83,8 @@ public class MYSQLController {
              PreparedStatement statement = connection.prepareStatement(createAccountStatement)
         ) {
             statement.setString(1, uuid);
-            statement.setDouble(2, defaultBalance);
-            statement.setString(3, uuid);
+            statement.setString(2, player.getName());
+            statement.setDouble(3, defaultBalance);
             statement.execute();
         } catch (SQLException e) {
             CrystalPoints.getInstance().getLogger().log(Level.SEVERE, e.getSQLState(), e);
@@ -110,8 +108,10 @@ public class MYSQLController {
                 }
             }
             statement2.setString(1, uuid);
-            statement2.setDouble(2, set ? value : config.defaultBalance + value);
-            statement2.setDouble(3, value);
+            statement2.setString(2, player.getName());
+            statement2.setDouble(3, set ? value : config.defaultBalance + value);
+            statement2.setString(4, player.getName());
+            statement2.setDouble(5, value);
             if (statement2.executeUpdate() > 0) {
                 result = UpdateResult.SUCCESS;
             }

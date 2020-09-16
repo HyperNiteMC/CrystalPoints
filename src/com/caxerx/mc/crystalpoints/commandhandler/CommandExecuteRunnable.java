@@ -1,4 +1,4 @@
-package com.caxerx.mc.commandhandler;
+package com.caxerx.mc.crystalpoints.commandhandler;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;

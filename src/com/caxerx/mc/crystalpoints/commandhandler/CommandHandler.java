@@ -1,4 +1,4 @@
-package com.caxerx.mc.commandhandler;
+package com.caxerx.mc.crystalpoints.commandhandler;
 
 import com.caxerx.mc.crystalpoints.CrystalPoints;
 import com.caxerx.mc.crystalpoints.CrystalPointsConfig;
@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.logging.Level;
 
@@ -24,7 +25,7 @@ public class CommandHandler implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, String[] strings) {
         if (strings.length == 0) {
             try {
                 executeSubCommand(commandSender, "balance", 0, null);

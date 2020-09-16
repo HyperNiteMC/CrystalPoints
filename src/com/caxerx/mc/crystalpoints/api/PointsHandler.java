@@ -8,7 +8,7 @@ import org.bukkit.OfflinePlayer;
  * Created by caxerx on 2016/6/27.
  */
 public class PointsHandler extends BSPointsPlugin {
-    private CrystalPointsAPI api;
+    private final CrystalPointsAPI api;
 
     public PointsHandler() {
         super("CrystalPoints", "Crystals");
@@ -28,7 +28,7 @@ public class PointsHandler extends BSPointsPlugin {
     @Override
     public double setPoints(OfflinePlayer offlinePlayer, double v) {
         try {
-            api.set(offlinePlayer,v,"console");
+            api.set(offlinePlayer, v, "console");
         } catch (DataCachingException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ public class PointsHandler extends BSPointsPlugin {
     @Override
     public double takePoints(OfflinePlayer offlinePlayer, double v) {
         try {
-            api.withdraw(offlinePlayer,v,"console");
+            api.withdraw(offlinePlayer, v, "console");
             return api.getBalance(offlinePlayer);
         } catch (DataCachingException e) {
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class PointsHandler extends BSPointsPlugin {
     @Override
     public double givePoints(OfflinePlayer offlinePlayer, double v) {
         try {
-            api.deposit(offlinePlayer,v,"console");
+            api.deposit(offlinePlayer, v, "console");
             return api.getBalance(offlinePlayer);
         } catch (DataCachingException e) {
             e.printStackTrace();

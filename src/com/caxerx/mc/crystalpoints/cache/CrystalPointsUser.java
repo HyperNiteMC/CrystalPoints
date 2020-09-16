@@ -7,10 +7,10 @@ import org.bukkit.OfflinePlayer;
  * Created by caxerx on 2016/8/13.
  */
 public class CrystalPointsUser {
+    private static final CacheManager cacheManager = CacheManager.getInstance();
     private final OfflinePlayer player;
     private double cachedBalance = 0.0d;
     private long lastCacheUpdate = -1;
-    private static CacheManager cacheManager = CacheManager.getInstance();
 
     public CrystalPointsUser(OfflinePlayer player) {
         this.player = player;

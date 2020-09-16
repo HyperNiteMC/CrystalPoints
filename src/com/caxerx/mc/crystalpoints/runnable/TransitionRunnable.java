@@ -1,6 +1,7 @@
 package com.caxerx.mc.crystalpoints.runnable;
 
 import com.caxerx.mc.crystalpoints.CrystalPoints;
+import com.caxerx.mc.crystalpoints.UpdateResult;
 import com.caxerx.mc.crystalpoints.cache.TransitionAction;
 import com.caxerx.mc.crystalpoints.cache.TransitionalType;
 import com.caxerx.mc.crystalpoints.sql.MYSQLController;
@@ -30,8 +31,8 @@ public class TransitionRunnable extends BukkitRunnable {
             if (type == TransitionalType.WITHDRAW) {
                 value = -value;
             }
-            MYSQLController.getInstance().updatePlayer(player, value, type == TransitionalType.SET);
-            if (player.isOnline()) {
+            var result = MYSQLController.getInstance().updatePlayer(player, value, type == TransitionalType.SET);
+            if (player.isOnline() && result == UpdateResult.SUCCESS) {
                 new CacheUpdateRunnable(player).runTaskAsynchronously(CrystalPoints.getInstance());
             }
             //sqlController.logTransition(player.getUniqueId().toString(), operator, "WITHDRAW", value, System.currentTimeMillis(), connection, true);
